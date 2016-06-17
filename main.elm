@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Html exposing (h1, text)
+import Html exposing (Html, h1, text)
 import Html.App exposing (program)
 import Html.Attributes exposing (id)
 import Svg exposing (..)
@@ -25,7 +25,7 @@ init =
             Keyboard.init
     in
         ( { x = 10, y = 10, keyboardModel = keyboardModel }
-        , Cmd.map Key keyboardCmd
+        , Cmd.map KeyPress keyboardCmd
         )
 
 
@@ -33,10 +33,15 @@ init =
 -- UPDATE
 
 
+type Msg
+    = NoOp
+    | KeyPress Keyboard.Msg
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Key keyMsg ->
+        KeyPress keyMsg ->
             let
                 ( keyboardModel, keyboardCmd ) =
                     Keyboard.update keyMsg model.keyboardModel
@@ -51,7 +56,7 @@ update msg model =
                     }
             in
                 ( { newModel | keyboardModel = keyboardModel }
-                , Cmd.map Key keyboardCmd
+                , Cmd.map KeyPress keyboardCmd
                 )
 
         NoOp ->
@@ -62,6 +67,7 @@ update msg model =
 -- VIEW
 
 
+view : Model -> Html Msg
 view model =
     h1 [] [ roundRect (toString model.x) (toString model.y) ]
 
@@ -76,13 +82,9 @@ roundRect modelX modelY =
 -- SUBSCRIPTIONS
 
 
-type Msg
-    = NoOp
-    | Key Keyboard.Msg
-
-
+subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch [ Sub.map Key Keyboard.subscriptions ]
+    Sub.batch [ Sub.map KeyPress Keyboard.subscriptions ]
 
 
 

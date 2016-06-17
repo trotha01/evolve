@@ -8723,7 +8723,7 @@ var _user$project$Main$roundRect = F2(
 						[
 							_elm_lang$svg$Svg_Attributes$x(modelX),
 							_elm_lang$svg$Svg_Attributes$y(modelY),
-							_elm_lang$svg$Svg_Attributes$width('100'),
+							_elm_lang$svg$Svg_Attributes$width('10'),
 							_elm_lang$svg$Svg_Attributes$height('100'),
 							_elm_lang$svg$Svg_Attributes$rx('15'),
 							_elm_lang$svg$Svg_Attributes$ry('15')
@@ -8745,39 +8745,50 @@ var _user$project$Main$view = function (model) {
 				_elm_lang$core$Basics$toString(model.y))
 			]));
 };
-var _user$project$Main$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		if (_p0.ctor === 'Key') {
-			var _p1 = A2(_elm_lang$core$Debug$log, 'test', 'test');
-			var _p2 = A2(_elm_lang$core$Debug$log, 'msg', msg);
-			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-		} else {
-			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-		}
-	});
 var _user$project$Main$Model = F3(
 	function (a, b, c) {
 		return {x: a, y: b, keyboardModel: c};
 	});
-var _user$project$Main$Key = function (a) {
-	return {ctor: 'Key', _0: a};
+var _user$project$Main$KeyPress = function (a) {
+	return {ctor: 'KeyPress', _0: a};
 };
 var _user$project$Main$init = function () {
-	var _p3 = _ohanhi$keyboard_extra$Keyboard_Extra$init;
-	var keyboardModel = _p3._0;
-	var keyboardCmd = _p3._1;
+	var _p0 = _ohanhi$keyboard_extra$Keyboard_Extra$init;
+	var keyboardModel = _p0._0;
+	var keyboardCmd = _p0._1;
 	return {
 		ctor: '_Tuple2',
 		_0: {x: 10, y: 10, keyboardModel: keyboardModel},
-		_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$Key, keyboardCmd)
+		_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$KeyPress, keyboardCmd)
 	};
 }();
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		if (_p1.ctor === 'KeyPress') {
+			var _p2 = A2(_ohanhi$keyboard_extra$Keyboard_Extra$update, _p1._0, model.keyboardModel);
+			var keyboardModel = _p2._0;
+			var keyboardCmd = _p2._1;
+			var direction = _ohanhi$keyboard_extra$Keyboard_Extra$arrows(keyboardModel);
+			var newModel = _elm_lang$core$Native_Utils.update(
+				model,
+				{y: model.y - direction.y, x: model.x + direction.x});
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					newModel,
+					{keyboardModel: keyboardModel}),
+				_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$KeyPress, keyboardCmd)
+			};
+		} else {
+			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		}
+	});
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$batch(
 		_elm_lang$core$Native_List.fromArray(
 			[
-				A2(_elm_lang$core$Platform_Sub$map, _user$project$Main$Key, _ohanhi$keyboard_extra$Keyboard_Extra$subscriptions)
+				A2(_elm_lang$core$Platform_Sub$map, _user$project$Main$KeyPress, _ohanhi$keyboard_extra$Keyboard_Extra$subscriptions)
 			]));
 };
 var _user$project$Main$main = {
