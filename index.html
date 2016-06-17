@@ -8753,7 +8753,7 @@ var _user$project$Aquifex$Move = function (a) {
 	return {ctor: 'Move', _0: a};
 };
 var _user$project$Aquifex$NoOp = {ctor: 'NoOp'};
-var _user$project$Pool$roundRect = F2(
+var _user$project$Co$roundRect = F2(
 	function (modelX, modelY) {
 		return A2(
 			_elm_lang$svg$Svg$rect,
@@ -8761,29 +8761,65 @@ var _user$project$Pool$roundRect = F2(
 				[
 					_elm_lang$svg$Svg_Attributes$x(modelX),
 					_elm_lang$svg$Svg_Attributes$y(modelY),
-					_elm_lang$svg$Svg_Attributes$width('10'),
-					_elm_lang$svg$Svg_Attributes$height('100'),
+					_elm_lang$svg$Svg_Attributes$width('5'),
+					_elm_lang$svg$Svg_Attributes$height('5'),
 					_elm_lang$svg$Svg_Attributes$rx('15'),
 					_elm_lang$svg$Svg_Attributes$ry('15')
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[]));
 	});
-var _user$project$Pool$view = function (model) {
+var _user$project$Co$view = function (model) {
 	return A2(
-		_user$project$Pool$roundRect,
+		_user$project$Co$roundRect,
 		_elm_lang$core$Basics$toString(model.x),
 		_elm_lang$core$Basics$toString(model.y));
 };
-var _user$project$Pool$init = {
+var _user$project$Co$init = {
 	ctor: '_Tuple2',
 	_0: {x: 10, y: 10},
 	_1: _elm_lang$core$Platform_Cmd$none
 };
-var _user$project$Pool$Model = F2(
+var _user$project$Co$Model = F2(
 	function (a, b) {
 		return {x: a, y: b};
 	});
+var _user$project$Co$NoOp = {ctor: 'NoOp'};
+var _user$project$Pool$init = function () {
+	var _p0 = _user$project$Co$init;
+	var co2 = _p0._0;
+	var _p1 = _user$project$Co$init;
+	var co1 = _p1._0;
+	return {
+		ctor: '_Tuple2',
+		_0: {
+			cos: _elm_lang$core$Native_List.fromArray(
+				[co1, co2])
+		},
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
+}();
+var _user$project$Pool$Model = function (a) {
+	return {cos: a};
+};
+var _user$project$Pool$CoCmd = function (a) {
+	return {ctor: 'CoCmd', _0: a};
+};
+var _user$project$Pool$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		A2(
+			_elm_lang$core$List$map,
+			function (co) {
+				return A2(
+					_elm_lang$html$Html_App$map,
+					_user$project$Pool$CoCmd,
+					_user$project$Co$view(co));
+			},
+			model.cos));
+};
 var _user$project$Pool$NoOp = {ctor: 'NoOp'};
 var _user$project$Main$Model = F3(
 	function (a, b, c) {

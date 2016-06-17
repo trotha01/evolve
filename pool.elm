@@ -1,23 +1,30 @@
 module Pool exposing (..)
 
-import Html exposing (Html, h1, text)
-import Html.App exposing (program)
+import Html exposing (Html, div, text)
+import Html.App exposing (program, map)
 import Html.Attributes exposing (id)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
+import Co
 
 
 type alias Model =
-    { x : Int
-    , y : Int
+    { cos : List Co.Model
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { x = 10, y = 10 }
-    , Cmd.none
-    )
+    let
+        ( co1, _ ) =
+            Co.init
+
+        ( co2, _ ) =
+            Co.init
+    in
+        ( { cos = [ co1, co2 ] }
+        , Cmd.none
+        )
 
 
 
@@ -26,6 +33,7 @@ init =
 
 type Msg
     = NoOp
+    | CoCmd Co.Msg
 
 
 
@@ -34,9 +42,4 @@ type Msg
 
 view : Model -> Html Msg
 view model =
-    roundRect (toString model.x) (toString model.y)
-
-
-roundRect : String -> String -> Html msg
-roundRect modelX modelY =
-    rect [ x modelX, y modelY, width "5", height "5", rx "15", ry "15" ] []
+    g [] (List.map (\co -> (map CoCmd (Co.view co))) model.cos)
