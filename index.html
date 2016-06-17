@@ -8708,42 +8708,24 @@ var _ohanhi$keyboard_extra$Keyboard_Extra$pressedDown = function (model) {
 var _user$project$Aquifex$roundRect = F2(
 	function (modelX, modelY) {
 		return A2(
-			_elm_lang$svg$Svg$svg,
+			_elm_lang$svg$Svg$rect,
 			_elm_lang$core$Native_List.fromArray(
 				[
-					_elm_lang$svg$Svg_Attributes$width('120'),
-					_elm_lang$svg$Svg_Attributes$height('120'),
-					_elm_lang$svg$Svg_Attributes$viewBox('0 0 120 120')
+					_elm_lang$svg$Svg_Attributes$x(modelX),
+					_elm_lang$svg$Svg_Attributes$y(modelY),
+					_elm_lang$svg$Svg_Attributes$width('10'),
+					_elm_lang$svg$Svg_Attributes$height('100'),
+					_elm_lang$svg$Svg_Attributes$rx('15'),
+					_elm_lang$svg$Svg_Attributes$ry('15')
 				]),
 			_elm_lang$core$Native_List.fromArray(
-				[
-					A2(
-					_elm_lang$svg$Svg$rect,
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$svg$Svg_Attributes$x(modelX),
-							_elm_lang$svg$Svg_Attributes$y(modelY),
-							_elm_lang$svg$Svg_Attributes$width('10'),
-							_elm_lang$svg$Svg_Attributes$height('100'),
-							_elm_lang$svg$Svg_Attributes$rx('15'),
-							_elm_lang$svg$Svg_Attributes$ry('15')
-						]),
-					_elm_lang$core$Native_List.fromArray(
-						[]))
-				]));
+				[]));
 	});
 var _user$project$Aquifex$view = function (model) {
 	return A2(
-		_elm_lang$html$Html$h1,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_user$project$Aquifex$roundRect,
-				_elm_lang$core$Basics$toString(model.x),
-				_elm_lang$core$Basics$toString(model.y))
-			]));
+		_user$project$Aquifex$roundRect,
+		_elm_lang$core$Basics$toString(model.x),
+		_elm_lang$core$Basics$toString(model.y));
 };
 var _user$project$Aquifex$update = F2(
 	function (msg, model) {
@@ -8771,62 +8753,109 @@ var _user$project$Aquifex$Move = function (a) {
 	return {ctor: 'Move', _0: a};
 };
 var _user$project$Aquifex$NoOp = {ctor: 'NoOp'};
-var _user$project$Main$Model = F2(
-	function (a, b) {
-		return {aquifex: a, keyboard: b};
+var _user$project$Pool$roundRect = F2(
+	function (modelX, modelY) {
+		return A2(
+			_elm_lang$svg$Svg$rect,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$svg$Svg_Attributes$x(modelX),
+					_elm_lang$svg$Svg_Attributes$y(modelY),
+					_elm_lang$svg$Svg_Attributes$width('10'),
+					_elm_lang$svg$Svg_Attributes$height('100'),
+					_elm_lang$svg$Svg_Attributes$rx('15'),
+					_elm_lang$svg$Svg_Attributes$ry('15')
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[]));
 	});
+var _user$project$Pool$view = function (model) {
+	return A2(
+		_user$project$Pool$roundRect,
+		_elm_lang$core$Basics$toString(model.x),
+		_elm_lang$core$Basics$toString(model.y));
+};
+var _user$project$Pool$init = {
+	ctor: '_Tuple2',
+	_0: {x: 10, y: 10},
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _user$project$Pool$Model = F2(
+	function (a, b) {
+		return {x: a, y: b};
+	});
+var _user$project$Pool$NoOp = {ctor: 'NoOp'};
+var _user$project$Main$Model = F3(
+	function (a, b, c) {
+		return {aquifex: a, pool: b, keyboard: c};
+	});
+var _user$project$Main$PoolCmd = function (a) {
+	return {ctor: 'PoolCmd', _0: a};
+};
 var _user$project$Main$AquifexCmd = function (a) {
 	return {ctor: 'AquifexCmd', _0: a};
 };
 var _user$project$Main$view = function (model) {
 	return A2(
-		_elm_lang$html$Html$h1,
+		_elm_lang$svg$Svg$svg,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
+			[
+				_elm_lang$svg$Svg_Attributes$width('120'),
+				_elm_lang$svg$Svg_Attributes$height('120'),
+				_elm_lang$svg$Svg_Attributes$viewBox('0 0 120 120')
+			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
 				A2(
 				_elm_lang$html$Html_App$map,
 				_user$project$Main$AquifexCmd,
-				_user$project$Aquifex$view(model.aquifex))
+				_user$project$Aquifex$view(model.aquifex)),
+				A2(
+				_elm_lang$html$Html_App$map,
+				_user$project$Main$PoolCmd,
+				_user$project$Pool$view(model.pool))
 			]));
 };
 var _user$project$Main$KeyPress = function (a) {
 	return {ctor: 'KeyPress', _0: a};
 };
 var _user$project$Main$init = function () {
-	var _p0 = _user$project$Aquifex$init;
-	var aquifex = _p0._0;
-	var aquifexCmd = _p0._1;
-	var _p1 = _ohanhi$keyboard_extra$Keyboard_Extra$init;
-	var keyboard = _p1._0;
-	var keyboardCmd = _p1._1;
+	var _p0 = _user$project$Pool$init;
+	var pool = _p0._0;
+	var poolCmd = _p0._1;
+	var _p1 = _user$project$Aquifex$init;
+	var aquifex = _p1._0;
+	var aquifexCmd = _p1._1;
+	var _p2 = _ohanhi$keyboard_extra$Keyboard_Extra$init;
+	var keyboard = _p2._0;
+	var keyboardCmd = _p2._1;
 	return {
 		ctor: '_Tuple2',
-		_0: {aquifex: aquifex, keyboard: keyboard},
+		_0: {aquifex: aquifex, keyboard: keyboard, pool: pool},
 		_1: _elm_lang$core$Platform_Cmd$batch(
 			_elm_lang$core$Native_List.fromArray(
 				[
 					A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$KeyPress, keyboardCmd),
-					A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$AquifexCmd, aquifexCmd)
+					A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$AquifexCmd, aquifexCmd),
+					A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$PoolCmd, poolCmd)
 				]))
 	};
 }();
 var _user$project$Main$update = F2(
 	function (msg, model) {
-		var _p2 = msg;
-		switch (_p2.ctor) {
+		var _p3 = msg;
+		switch (_p3.ctor) {
 			case 'KeyPress':
-				var _p3 = A2(_ohanhi$keyboard_extra$Keyboard_Extra$update, _p2._0, model.keyboard);
-				var keyboard = _p3._0;
-				var keyboardCmd = _p3._1;
+				var _p4 = A2(_ohanhi$keyboard_extra$Keyboard_Extra$update, _p3._0, model.keyboard);
+				var keyboard = _p4._0;
+				var keyboardCmd = _p4._1;
 				var direction = _ohanhi$keyboard_extra$Keyboard_Extra$arrows(keyboard);
-				var _p4 = A2(
+				var _p5 = A2(
 					_user$project$Aquifex$update,
 					_user$project$Aquifex$Move(direction),
 					model.aquifex);
-				var newAquifex = _p4._0;
-				var aquiCmd = _p4._1;
+				var newAquifex = _p5._0;
+				var aquiCmd = _p5._1;
 				var newModel = _elm_lang$core$Native_Utils.update(
 					model,
 					{aquifex: newAquifex, keyboard: keyboard});
@@ -8841,6 +8870,8 @@ var _user$project$Main$update = F2(
 							]))
 				};
 			case 'AquifexCmd':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'PoolCmd':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};

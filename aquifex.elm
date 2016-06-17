@@ -55,10 +55,9 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    h1 [] [ roundRect (toString model.x) (toString model.y) ]
+    roundRect (toString model.x) (toString model.y)
 
 
 roundRect : String -> String -> Html msg
 roundRect modelX modelY =
-    svg [ width "120", height "120", viewBox "0 0 120 120" ]
-        [ rect [ x modelX, y modelY, width "10", height "100", rx "15", ry "15" ] [] ]
+    rect [ x modelX, y modelY, width "10", height "100", rx "15", ry "15" ] []

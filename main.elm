@@ -1,12 +1,13 @@
 module Main exposing (..)
 
-import Html exposing (Html, h1, text)
+import Html exposing (Html, div, text)
 import Html.App exposing (program, map)
 import Html.Attributes exposing (id)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Keyboard.Extra as Keyboard
 import Aquifex
+import Pool
 
 
 -- MODEL
@@ -14,6 +15,7 @@ import Aquifex
 
 type alias Model =
     { aquifex : Aquifex.Model
+    , pool : Pool.Model
     , keyboard : Keyboard.Model
     }
 
@@ -26,11 +28,18 @@ init =
 
         ( aquifex, aquifexCmd ) =
             Aquifex.init
+
+        ( pool, poolCmd ) =
+            Pool.init
     in
-        ( { aquifex = aquifex, keyboard = keyboard }
+        ( { aquifex = aquifex
+          , keyboard = keyboard
+          , pool = pool
+          }
         , Cmd.batch
             [ Cmd.map KeyPress keyboardCmd
             , Cmd.map AquifexCmd aquifexCmd
+            , Cmd.map PoolCmd poolCmd
             ]
         )
 
@@ -43,6 +52,7 @@ type Msg
     = NoOp
     | KeyPress Keyboard.Msg
     | AquifexCmd Aquifex.Msg
+    | PoolCmd Pool.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -72,6 +82,9 @@ update msg model =
         AquifexCmd aquiMsg ->
             ( model, Cmd.none )
 
+        PoolCmd aquiMsg ->
+            ( model, Cmd.none )
+
         NoOp ->
             ( model, Cmd.none )
 
@@ -82,7 +95,10 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    h1 [] [ map AquifexCmd (Aquifex.view model.aquifex) ]
+    svg [ width "120", height "120", viewBox "0 0 120 120" ]
+        [ map AquifexCmd (Aquifex.view model.aquifex)
+        , map PoolCmd (Pool.view model.pool)
+        ]
 
 
 
